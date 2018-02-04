@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>jQuery UI</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.structure.min.css></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+	
+	<div id="nav-bar">
+		<span id="brand" class="left">CodePlayerClone</span>
+	
+
+		<div id="button-container">
+			<div class="toggleButton left" id="html">HTML</div>
+			<div class="toggleButton left" id="css">CSS</div>
+			<div class="toggleButton left" id="js">JavaScript</div>
+			<div class="toggleButton left" id="output">Output</div>
+		</div>
+	</div>
+
+	<div id="body-container">
+		
+		<textarea id="htmlPanel" class="panel left hidden"><p id="paragraph">Hello World</p></textarea>
+		<textarea id="cssPanel" class="panel left hidden">p{color:green;}</textarea>
+		<textarea id="jsPanel" class="panel left hidden">document.getElementById("paragraph").innerHTML="Hello Radhika";</textarea>
+		<iframe id="outputPanel" class="panel left hidden"></iframe>
+	</div>
+	
+
+	<script>
+
+		function updateOutput()
+		{
+			$("iframe").contents().find("html").html("<html><head><style type='text/css'>"+$("#cssPanel").val()+"</style></head><body>"+$("#htmlPanel").val()+"</body></html>");
+			document.getElementById("outputPanel").contentWindow.eval($("#jsPanel").val());
+		}
+ 	 	$(".toggleButton").hover(
+ 	 	function()
+ 	 	{
+ 	 		$(this).addClass("highlightedButton");
+ 	 	},
+ 	 	function()
+ 	 	{
+ 	 		$(this).removeClass("highlightedButton");
+ 	 	});
+
+ 	 	$(".toggleButton").click(function()
+ 	 	{
+ 	 		
+ 	 		var panelId=$(this).attr("id")+"Panel";
+ 	 		
+ 	 		
+
+ 	 		$(this).toggleClass("active");
+ 	 		
+ 	 		$(this).removeClass("highlightedButton");
+
+ 	 		$("#"+panelId).toggleClass("hidden");
+
+ 	 		var noOfActivePanels=4-$(".hidden").length;
+ 	 		
+ 	 		$(".panel").width(($(window).width()/noOfActivePanels)-10);
+ 	 	});
+
+ 	 	$(".panel").height($(window).height()-$("#nav-bar").height()-10);
+
+ 	 	
+ 	 		
+ 	 	//$(".panel").width(($(window).width()/2)-10);
+ 	 	
+ 	 	updateOutput();
+ 	 	$("#htmlPanel").on('change keyup paste',function()
+ 	 	{
+ 	 		
+ 	 		updateOutput();
+ 	 	});
+  	</script>
+</body>
